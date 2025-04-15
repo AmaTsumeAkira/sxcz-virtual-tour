@@ -70,6 +70,79 @@ button {
     max-width: 75%; /* 图片最大宽度为父容器的100% */
     height: auto; /* 高度根据宽度自动调整 */
 }
+/* 模态框样式 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* 背景遮罩40%透明度 */
+}
+
+.modal-content {
+  background-color: rgba(51, 51, 51, 0.8); /* 灰底80%透明 */
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  color: white; /* 白字 */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: modalopen 0.5s;
+}
+
+@keyframes modalopen {
+  from {opacity: 0; transform: translateY(-50px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.modal-body {
+  padding: 15px 0;
+  line-height: 1.6;
+}
+
+.modal-body p {
+  margin-bottom: 15px;
+}
+
+.modal-body ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.modal-body li {
+  margin-bottom: 8px;
+}
+
+.modal h2 {
+  margin-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    margin: 20% auto;
+  }
+}
 </style>
     <style>
         /* 样式设置 */
@@ -208,7 +281,7 @@ button {
     <button>学校官网</button>
 </a>
 <button id="showImageButton">校园地图</button>
-<button >关于项目</button>
+<button id="aboutButton">关于项目</button>
 </div>
     <div id="popupImage" class="popup-image">
         <img src="ks.png" alt="点击开始游览">
@@ -219,6 +292,25 @@ button {
             <button id="closeButton">X</button>
             <img id="displayedImage" src="map.png" alt="map">
         </div>
+    </div>
+    <!-- 关于项目模态框 -->
+    <div id="aboutModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>山西财专"云上"游校园项目（20241205 V1.3）</h2>
+        <div class="modal-body">
+          <p>本项目是为山西财政税务专科学校打造的虚拟校园游览系统，通过360度全景技术展示校园风貌。</p>
+          <p><strong>项目特点：</strong></p>
+          <ul>
+            <li>全方位展示校园16个主要场景</li>
+            <li>支持PC和移动设备访问</li>
+            <li>沉浸式体验校园环境</li>
+            <li>便捷的导航和交互功能</li>
+          </ul>
+          <p><strong>开发团队：</strong></p>
+          <p>山西财专信息科技学院分团委</p>
+        </div>
+      </div>
     </div>
 <script>
 // 获取音频元素和静音按钮
@@ -280,6 +372,28 @@ document.addEventListener('DOMContentLoaded', function() {
             if (event.target === imageModal) {
                 imageModal.style.display = 'none';
             }
+        });
+        
+        // 关于项目模态框交互
+        const aboutButton = document.getElementById('aboutButton');
+        const aboutModal = document.getElementById('aboutModal');
+        const aboutCloseButton = aboutModal.querySelector('.close-button');
+        
+        // 显示关于项目模态框
+        aboutButton.addEventListener('click', () => {
+          aboutModal.style.display = 'block';
+        });
+        
+        // 关闭关于项目模态框
+        aboutCloseButton.addEventListener('click', () => {
+          aboutModal.style.display = 'none';
+        });
+        
+        // 点击模态框外部关闭
+        window.addEventListener('click', (event) => {
+          if (event.target === aboutModal) {
+            aboutModal.style.display = 'none';
+          }
         });
     </script>
 <script src="vendor/es5-shim.js"></script>
